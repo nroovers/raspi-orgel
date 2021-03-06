@@ -1,8 +1,9 @@
-# from gpiozero import LED
-# # from gpiozero import TonalBuzzer
-# from gpiozero.tones import Tone
+from gpiozero import LED
+# from gpiozero import TonalBuzzer
+from gpiozero.tones import Tone
 
 import pyaudio
+# import simpleaudio as sa # other option instead of PyAudio
 
 from time import sleep
 
@@ -17,39 +18,45 @@ def loadSong(songLocation):
 
 def initLEDs():
     leds = {}
-    # leds['C'] = LED(23)
-    # leds['D'] = LED(24)
-    # leds['E'] = LED(25)
-    # leds['F'] = LED(12)
-    # leds['G'] = LED(16)
-    # leds['A'] = LED(20)
-    # leds['B'] = LED(21)
+    leds['C'] = LED(23)
+    leds['D'] = LED(24)
+    leds['E'] = LED(25)
+    leds['F'] = LED(12)
+    leds['G'] = LED(16)
+    leds['A'] = LED(20)
+    leds['B'] = LED(21)
     return leds
 
 
 def playNote(stream, leds, note, tempo):
+    n=note[0]
     leds[n[0:1]].on()
     print('play note', note)
+    if(stream.is_stopped()):
+        stream.start_stream()
     stream.write(
         sound.sinWave(44100,
-                      noteUtils.getFrequency(note[0]),
+                      noteUtils.getFrequency(n),
                       note[1]*tempo))
+    stream.stop_stream()
     leds[n[0:1]].off()
-    sleep(0.01)
+    # sleep(0.01)
 
 
 def playSong(s):
     p = pyaudio.PyAudio()
     leds = initLEDs()
     stream = p.open(format=p.get_format_from_width(1),
-                    channels=2, rate=44100, output=True)
+                    # format=pyaudio.paUInt8,
+                    # frames_per_buffer=4096,
+                    channels=2, 
+                    rate=44100, 
+                    output=True)
     for note in song.getNotes(s):
         playNote(stream,
                  leds,
                  note,
                  song.getTempo(s))
-
-    stream.stop_stream()
     stream.close()
     p.terminate()
 

@@ -1,7 +1,7 @@
 import math  # import needed modules
 
 
-# Sound Generation — python
+# Sound Generation - python
 # https://medium.com/py-bits/sound-generation-python-904e54f5398d
 def sinWave(bitrate=44100, freq=440, length=1):
     # bitrate = 44100  # number of frames per second/frameset
