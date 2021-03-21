@@ -5,9 +5,13 @@
 # Example:
 # var frequency = getFrequency('C3');
 
+notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+
+def getNotes():
+    return notes
+
 def getFrequency(note):
     # print('getFrequency', note)
-    notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
     octave = 0
     keyNumber = 0
 
